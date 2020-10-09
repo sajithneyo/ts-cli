@@ -1,5 +1,6 @@
 const path = require('path');
 const NodeExternals = require('webpack-node-externals');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const NodemonPlugin = require('nodemon-webpack-plugin'); // Ding
 
 module.exports = {
@@ -35,6 +36,15 @@ module.exports = {
         ],
     },
     plugins: [
+        new ForkTsCheckerWebpackPlugin({
+            typescript: {
+                configFile: path.resolve(__dirname, 'tsconfig.json'),
+                memoryLimit: 2048,
+                mode: 'write-references',
+                diagnosticsOptions: { syntactic: true, semantic: true, declaration: false, global: false },
+                profile: true,
+            },
+        }),
         new NodemonPlugin({
             watch: path.resolve('./dist'),
             ignore: ['*.js.map'],
