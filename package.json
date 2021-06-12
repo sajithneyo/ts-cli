@@ -1,5 +1,5 @@
 {
-    "name": "template-ts-cli",
+    "name": "ts-cli",
     "version": "0.0.1",
     "description": "A template to develop cli apps using TS, Webpack, Babel and Nodemon",
     "main": "src/index.js",
