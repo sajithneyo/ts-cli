@@ -1,0 +1,3 @@
+{
+    "reject": ["fork-ts-checker-webpack-plugin"]
+}
