@@ -13,7 +13,6 @@
         "noImplicitReturns": true,
         "strictNullChecks": true,
         "preserveConstEnums": true,
-        "suppressImplicitAnyIndexErrors": true,
         "forceConsistentCasingInFileNames": true,
         "strict": true,
         "experimentalDecorators": true,
