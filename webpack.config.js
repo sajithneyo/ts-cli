@@ -27,27 +27,7 @@ module.exports = {
                 test: /\.(js|mjs|ts)$/,
                 exclude: /(node_modules)/,
                 use: {
-                    loader: 'babel-loader',
-                    options: {
-                        cacheDirectory: true,
-                        presets: [
-                            [
-                                '@babel/preset-env',
-                                {
-                                    targets: {
-                                        node: 'current',
-                                    },
-                                },
-                            ],
-                            [
-                                '@babel/preset-typescript',
-                                {
-                                    onlyRemoveTypeImports: true, // this is important for proper files watching
-                                },
-                            ],
-                        ],
-                        plugins: ['@babel/plugin-proposal-class-properties', '@babel/proposal-object-rest-spread']
-                    },
+                    loader: 'swc-loader',
                 },
             },
         ],
@@ -67,6 +47,6 @@ module.exports = {
             ignore: ['*.js.map'],
             verbose: false,
             ext: 'js,njk,json',
-        })
+        }),
     ],
 };
