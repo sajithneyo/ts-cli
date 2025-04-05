@@ -5,12 +5,12 @@ const NodemonPlugin = require('nodemon-webpack-plugin'); // Ding
 
 module.exports = {
     optimization: {
-        minimize: false,
+        minimize: false
     },
     entry: './src/index.ts',
     externals: [NodeExternals()],
     resolve: {
-        extensions: ['.ts', '.js', '.json'],
+        extensions: ['.ts', '.js', '.json']
     },
     devtool: 'inline-source-map',
     target: 'node',
@@ -19,7 +19,7 @@ module.exports = {
     output: {
         libraryTarget: 'commonjs',
         path: path.resolve(__dirname, 'dist'),
-        filename: '[name].js',
+        filename: '[name].js'
     },
     module: {
         rules: [
@@ -27,30 +27,10 @@ module.exports = {
                 test: /\.(js|mjs|ts)$/,
                 exclude: /(node_modules)/,
                 use: {
-                    loader: 'babel-loader',
-                    options: {
-                        cacheDirectory: true,
-                        presets: [
-                            [
-                                '@babel/preset-env',
-                                {
-                                    targets: {
-                                        node: 'current',
-                                    },
-                                },
-                            ],
-                            [
-                                '@babel/preset-typescript',
-                                {
-                                    onlyRemoveTypeImports: true, // this is important for proper files watching
-                                },
-                            ],
-                        ],
-                        plugins: ['@babel/plugin-proposal-class-properties', '@babel/proposal-object-rest-spread']
-                    },
-                },
-            },
-        ],
+                    loader: 'swc-loader'
+                }
+            }
+        ]
     },
     plugins: [
         new ForkTsCheckerWebpackPlugin({
@@ -59,14 +39,14 @@ module.exports = {
                 memoryLimit: 2048,
                 mode: 'write-references',
                 diagnosticsOptions: { syntactic: true, semantic: true, declaration: false, global: false },
-                profile: true,
-            },
+                profile: true
+            }
         }),
         new NodemonPlugin({
             watch: path.resolve('./dist'),
             ignore: ['*.js.map'],
             verbose: false,
-            ext: 'js,njk,json',
+            ext: 'js,njk,json'
         })
-    ],
+    ]
 };

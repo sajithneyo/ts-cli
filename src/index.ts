@@ -1,10 +1,10 @@
-import 'source-map-support/register';
+import { install } from 'source-map-support';
+install();
 
 class Hello {
-    public sayHello(): void {
+    static sayHello(): void {
         console.log('Hello World');
     }
 }
 
-const hello = new Hello();
-hello.sayHello();
+Hello.sayHello();
