@@ -4,13 +4,40 @@ import { defineConfig, globalIgnores } from 'eslint/config';
 
 import jsPlugin from '@eslint/js';
 import jsonPlugin from 'eslint-plugin-json';
-import importPlugin from 'eslint-plugin-import';
+import pluginJest from 'eslint-plugin-jest';
+import eslintPluginImportX from 'eslint-plugin-import-x';
 import eslintPrettierPlugin from 'eslint-plugin-prettier/recommended';
+
+const commonRules = {
+    // Prettier
+    'prettier/prettier': 'error',
+
+    // General JS/TS rules
+    'no-underscore-dangle': 'off',
+    'max-len': [
+        'warn',
+        {
+            code: 120,
+            tabWidth: 4,
+            comments: 120,
+            ignoreComments: false,
+            ignoreTrailingComments: true,
+            ignoreUrls: true,
+            ignoreStrings: true,
+            ignoreTemplateLiterals: true,
+            ignoreRegExpLiterals: true
+        }
+    ],
+    'class-methods-use-this': 'warn',
+    'require-await': 'off',
+    indent: 'off',
+    'prefer-template': 'off'
+};
 
 const tsConfigs = tseslint.config({
     name: 'ts-cli/ts-rules',
     files: ['**/*.ts'],
-    extends: [tseslint.configs.recommended, importPlugin.flatConfigs.typescript, eslintPrettierPlugin],
+    extends: [tseslint.configs.recommended],
     languageOptions: {
         globals: {
             ...globals.jest,
@@ -24,35 +51,6 @@ const tsConfigs = tseslint.config({
         }
     },
     rules: {
-        // Prettier
-        'prettier/prettier': 'error',
-
-        // Import rules
-        'import/no-unresolved': 'error',
-        'import/default': 'off',
-        'import/no-extraneous-dependencies': 'off',
-
-        // General JS/TS rules
-        'no-underscore-dangle': 'off',
-        'max-len': [
-            'warn',
-            {
-                code: 120,
-                tabWidth: 4,
-                comments: 120,
-                ignoreComments: false,
-                ignoreTrailingComments: true,
-                ignoreUrls: true,
-                ignoreStrings: true,
-                ignoreTemplateLiterals: true,
-                ignoreRegExpLiterals: true
-            }
-        ],
-        'class-methods-use-this': 'warn',
-        'require-await': 'off',
-        indent: 'off',
-        'prefer-template': 'off',
-
         // TypeScript-specific rules
         '@typescript-eslint/indent': ['off', 4],
         '@typescript-eslint/no-unsafe-member-access': 'off',
@@ -74,13 +72,15 @@ const tsConfigs = tseslint.config({
                 allowNullish: false
             }
         ],
-        '@typescript-eslint/require-await': 'warn'
+        '@typescript-eslint/require-await': 'warn',
+
+        ...commonRules
     }
 });
 
 export default defineConfig([
-    importPlugin.flatConfigs.recommended,
-
+    eslintPluginImportX.flatConfigs.recommended,
+    eslintPluginImportX.flatConfigs.typescript,
     eslintPrettierPlugin,
     {
         name: 'ts-cli/json-rules',
@@ -90,7 +90,7 @@ export default defineConfig([
     {
         name: 'ts-cli/js-rules',
         files: ['**/*.{js,mjs,cjs}'],
-        extends: [jsPlugin.configs.recommended, importPlugin.flatConfigs.recommended],
+        extends: [jsPlugin.configs.recommended],
         languageOptions: {
             globals: {
                 ...globals.jest,
@@ -98,8 +98,39 @@ export default defineConfig([
             },
             ecmaVersion: 'latest',
             sourceType: 'module'
+        },
+        rules: {
+            ...commonRules
         }
     },
     ...tsConfigs,
+    {
+        files: ['**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}'],
+        ignores: ['eslint.config.js', 'webpack.config.js'],
+        languageOptions: {
+            parser: tseslint.parser,
+            ecmaVersion: 'latest',
+            sourceType: 'module'
+        },
+        rules: {
+            'no-unused-vars': 'off',
+            'import-x/no-dynamic-require': 'warn',
+            'import-x/no-nodejs-modules': 'warn'
+        }
+    },
+    {
+        files: ['**/*.spec.js', '**/*.test.js','**/*.spec.ts', '**/*.test.ts'],
+        plugins: { jest: pluginJest },
+        languageOptions: {
+            globals: pluginJest.environments.globals.globals
+        },
+        rules: {
+            'jest/no-disabled-tests': 'warn',
+            'jest/no-focused-tests': 'error',
+            'jest/no-identical-title': 'error',
+            'jest/prefer-to-have-length': 'warn',
+            'jest/valid-expect': 'error'
+        }
+    },
     globalIgnores(['dist', '.yarn', 'eslint.config.mjs', 'jest.config.js'])
 ]);
