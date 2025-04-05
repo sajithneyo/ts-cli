@@ -1,12 +1,11 @@
 {
     "name": "ts-cli",
-    "packageManager": "yarn@3.6.1",
+    "packageManager": "yarn@4.8.1",
     "version": "0.0.1",
     "description": "A template to develop cli apps using TS, Webpack, Babel and Nodemon",
     "main": "src/index.js",
     "scripts": {
-        "lint": "eslint --ext .ts src/",
-        "build": "webpack --config=webpack.config.js",
+        "build": "webpack --config=webpack.config.js --mode production",
         "dev": "webpack --watch",
         "rimraf": "rimraf node_modules",
         "test": "jest --coverage=true",
@@ -37,7 +36,7 @@
         "fork-ts-checker-webpack-plugin": "^9.1.0",
         "jest": "^29.7.0",
         "nodemon-webpack-plugin": "^4.8.2",
-        "prettier": "^3.5.3",
+        "pretstier": "^3.5.3",
         "ts-jest": "^29.3.1",
         "typescript": "^5.8.3",
         "typescript-eslint": "^8.29.0",
