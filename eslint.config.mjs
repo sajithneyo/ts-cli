@@ -119,7 +119,7 @@ export default defineConfig([
         }
     },
     {
-        files: ['**/*.spec.js', '**/*.test.js','**/*.spec.ts', '**/*.test.ts'],
+        files: ['**/*.spec.js', '**/*.test.js', '**/*.spec.ts', '**/*.test.ts'],
         plugins: { jest: pluginJest },
         languageOptions: {
             globals: pluginJest.environments.globals.globals

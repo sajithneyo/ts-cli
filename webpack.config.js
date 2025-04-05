@@ -27,10 +27,10 @@ module.exports = {
                 test: /\.(js|mjs|ts)$/,
                 exclude: /(node_modules)/,
                 use: {
-                    loader: 'swc-loader',
-                },
-            },
-        ],
+                    loader: 'swc-loader'
+                }
+            }
+        ]
     },
     plugins: [
         new ForkTsCheckerWebpackPlugin({
